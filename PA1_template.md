@@ -102,15 +102,12 @@ The total steps by date data presented as a histogram:
 
 
 ```r
-yRange <- c(0, 1000 * (floor(max(dtStepsByDate$totalSteps) / 1000) + 1))
-hist(x = rep(dtStepsByDate$date, dtStepsByDate$totalSteps),
-		breaks = "days",
-		freq = TRUE,
+hist(x = dtStepsByDate$totalSteps,
 		col = "red",
-		ylim = yRange,
-		main = "Total Number Of Steps By Date",
-		xlab = "Date",
-		ylab = "Number of Steps")
+		breaks = 20,
+		main = "Histogram of Total Number Of Steps Per Day",
+		xlab = "Number of Steps",
+		ylab = "Frequency")
 ```
 
 ![](PA1_template_files/figure-html/summaryDateHistogram-1.png) 
@@ -239,33 +236,43 @@ The median number of steps with the missing values estimated is 1.0766189\times 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-I was not able to complete this section in time.  Here is the in-process code to complete later.
+We summarize the mean steps by type of day and interval into a new data table
+named dtStepsByTypeOfDayAndInterval.
+
 
 ```r
-#dtActivity <- cbind(dtActivity, data.table("DayOfWeek" = weekdays(dtActivity$date)))
-#dtActivity <- cbind(dtActivity, data.table("TypeOfDay" = character(nrow(dtActivity))))
+dtActivity <- cbind(dtActivity, data.table("DayOfWeek" = weekdays(dtActivity$date)))
+dtActivity <- cbind(dtActivity, data.table("TypeOfDay" = character(nrow(dtActivity))))
 
-#for (row in 1:nrow(dtActivity))
-#{
-#	dtActivity[row]$TypeOfDay <- switch(dtActivity[row]$DayOfWeek,
-#										Monday = "Weekday",
-#										Tuesday = "Weekday",
-#										Wednesday = "Weekday",
-#										Thursday = "Weekday",
-#										Friday = "Weekday",
-#										Saturday = "Weekend",
-#										Sunday = "Weekend")
-#}
+for (row in 1:nrow(dtActivity))
+{
+	dtActivity[row]$TypeOfDay <- switch(dtActivity[row]$DayOfWeek,
+										Monday = "Weekday",
+										Tuesday = "Weekday",
+										Wednesday = "Weekday",
+										Thursday = "Weekday",
+										Friday = "Weekday",
+										Saturday = "Weekend",
+										Sunday = "Weekend")
+}
 
-#dtStepsByTypeOfDayAndInterval <- dtActivity[, mean(steps, na.rm = TRUE), by = TypeOfDay]
-#setnames(dtStepsByTypeOfDayAndInterval, "V1", "meanSteps")
-#dtStepsByInterval
-#yRange <- c(0, 20 * (floor(max(dtStepsByInterval$meanSteps) / 20) + 1))
-#plot(dtStepsByInterval,
-#		type = "l",
-#		col = "black",
-#		ylim = yRange,
-#		main = "Mean Number Of Steps By Interval",
-#		xlab = "Interval",
-#		ylab = "Mean Number of Steps")
+dtStepsByTypeOfDayAndInterval <- dtActivity[, mean(steps, na.rm = TRUE), by = c("TypeOfDay", "interval")]
+setnames(dtStepsByTypeOfDayAndInterval, "V1", "meanSteps")
 ```
+
+
+The mean steps by interval data presented as a time-series plot:
+
+
+```r
+library(lattice)
+xyplot(meanSteps ~ interval | TypeOfDay,
+		data = dtStepsByTypeOfDayAndInterval,
+		type = "l",
+		main = "Mean Number Of Steps By Type Of Day And Interval",
+		xlab = "Interval",
+		ylab = "Mean Number of Steps",
+		layout = c(2, 1))
+```
+
+![](PA1_template_files/figure-html/summaryTypeOfDayAndIntervalPlot-1.png) 
