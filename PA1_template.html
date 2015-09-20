@@ -66,7 +66,7 @@ img {
 
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<p>We read the raw data into a data table named dtActivity and update the data types for each column.</p>
+<p>–We read the raw data into a data table named dtActivity and update the data types for each column.</p>
 <pre class="r"><code>library(data.table)
 dtActivity &lt;- fread(input = &quot;activity.csv&quot;, sep = &quot;,&quot;, colClasses = &quot;character&quot;,
                             stringsAsFactors = FALSE)

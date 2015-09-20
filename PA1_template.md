@@ -3,7 +3,7 @@
 
 ## Loading and preprocessing the data
 
-We read the raw data into a data table named dtActivity and update the data types for each column.
+--We read the raw data into a data table named dtActivity and update the data types for each column.
 
 
 ```r
