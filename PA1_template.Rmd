@@ -174,8 +174,8 @@ library(lattice)
 xyplot(meanSteps ~ interval | TypeOfDay,
 		data = dtStepsByTypeOfDayAndInterval,
 		type = "l",
-		main = "Mean Number Of Steps By Type Of Day And Interval",
+		main = "Mean Number Steps By Type Of Day And Interval",
 		xlab = "Interval",
-		ylab = "Mean Number of Steps",
+		ylab = "Mean Number Steps",
 		layout = c(2, 1))
 ```
